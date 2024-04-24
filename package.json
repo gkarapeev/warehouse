@@ -1,0 +1,8 @@
+{
+  "name": "warehouse",
+  "version": "1.0.0",
+  "description": "cool beans",
+  "main": "index.js",
+  "author": "Georgi Karapeev",
+  "license": "MIT"
+}
