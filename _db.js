@@ -1,11 +1,28 @@
-export const warehouses = [
-	{ id: 1, name: "Torres Inc", size: 3894 },
-	{ id: 2, name: "Washington-Romero", size: 4634 },
-];
+const HAT = { id: 1, name: "Hat", sizePerUnit: 2 };
+const PANTS = { id: 2, name: "Pants", sizePerUnit: 6 };
 
 export const products = [
-	{ id: 1, name: "Hat", sizePerUnit: 2 },
-	{ id: 2, name: "Pants", sizePerUnit: 6 },
+	HAT,
+	PANTS,
+];
+
+export const warehouses = [
+	{
+		id: 1,
+		name: "Sofia",
+		size: 100,
+		products: [
+			PANTS
+		]
+	},
+	{
+		id: 2,
+		name: "Plovdiv",
+		size: 20,
+		products: [
+			HAT
+		]
+	},
 ];
 
 export const movements = [
@@ -16,7 +33,7 @@ export const movements = [
 		toWarehouseId: 2,
 		date: "2023-09-25",
 		productId: 1,
-		productCount: 28,
+		productCount: 1,
 	},
 	{
 		id: 2,
@@ -25,6 +42,6 @@ export const movements = [
 		toWarehouseId: 1,
 		date: "2023-12-25",
 		productId: 2,
-		productCount: 52,
+		productCount: 1,
 	},
 ];
