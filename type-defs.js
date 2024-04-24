@@ -36,7 +36,6 @@ export const typeDefs = `#graphql
 	}
 
 	type Mutation {
-		createProduct(name: String!, sizePerUnit: Int!): Product
-		createMovement(name: String!, fromWarehouseId: Int, toWarehouseId: Int, date: String!, productId: Int!, productCount: Int!): Movement
+		createProductType(name: String!, sizePerUnit: Int!): ProductType
 	}
 `;

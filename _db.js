@@ -1,14 +1,14 @@
-export const productTypes = [
+let productTypes = [
 	{ id: 1, name: "Hat", sizePerUnit: 2 },
 	{ id: 2, name: "Pants", sizePerUnit: 6 }
 ];
 
-export const products = [
+let products = [
 	{ id: 1, productTypeId: 1, warehouseId: 2 },
 	{ id: 2, productTypeId: 2, warehouseId: 1 }
 ];
 
-export const warehouses = [
+let warehouses = [
 	{
 		id: 1,
 		name: "Sofia",
@@ -21,7 +21,7 @@ export const warehouses = [
 	},
 ];
 
-export const movements = [
+let movements = [
 	{
 		id: 1,
 		name: "Move hats 1 to 2",
@@ -41,3 +41,10 @@ export const movements = [
 		productCount: 1,
 	},
 ];
+
+export const db = {
+	productTypes,
+	products,
+	warehouses,
+	movements
+};

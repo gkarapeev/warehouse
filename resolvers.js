@@ -1,31 +1,49 @@
-import { productTypes, products, movements, warehouses } from "./_db.js";
+import { db } from "./_db.js";
 
 export const resolvers = {
 	Query: {
 		productTypes() {
-			return productTypes;
+			return db.productTypes;
 		},
 		products() {
-			return products;
+			return db.products;
 		},
 		warehouses() {
-			return warehouses;
+			return db.warehouses;
 		},
 		warehouse(_, args) {
-			return warehouses.find(w => w.id === args.warehouseId);
+			return db.warehouses.find(w => w.id === args.warehouseId);
 		}
 	},
 	Warehouse: {
 		movements(parent) {
-			return movements.filter(m => m.fromWarehouseId === parent.id || m.toWarehouseId === parent.id);
+			return db.movements.filter(m => m.fromWarehouseId === parent.id || m.toWarehouseId === parent.id);
 		},
 		products(parent) {
-			return products.filter(p => p.warehouseId === parent.id)
+			return db.products.filter(p => p.warehouseId === parent.id)
 		}
 	},
 	Product: {
 		type(parent) {
-			return productTypes.find(t => t.id === parent.productTypeId)
+			return db.productTypes.find(t => t.id === parent.productTypeId)
+		}
+	},
+	Mutation: {
+		createProductType(_, args) {
+			const biggestId = Math.max(...db.productTypes.map(t => t.id));
+			const newId = biggestId + 1;
+			const newType = {
+				id: newId,
+				name: args.name,
+				sizePerUnit: args.sizePerUnit
+			};
+
+			db.productTypes = [
+				...db.productTypes,
+				newType
+			];
+
+			return newType;
 		}
 	}
 };
