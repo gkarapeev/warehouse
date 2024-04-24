@@ -9,6 +9,6 @@ const server = new ApolloServer({
 });
 
 const PORT = 4000;
-const { url } = await startStandaloneServer(server, { listen: { port: PORT } });
+await startStandaloneServer(server, { listen: { port: PORT } });
 
 console.log(`Server ready at port ${PORT}`);

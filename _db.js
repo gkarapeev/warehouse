@@ -1,9 +1,11 @@
-const HAT = { id: 1, name: "Hat", sizePerUnit: 2 };
-const PANTS = { id: 2, name: "Pants", sizePerUnit: 6 };
+export const productTypes = [
+	{ id: 1, name: "Hat", sizePerUnit: 2 },
+	{ id: 2, name: "Pants", sizePerUnit: 6 }
+];
 
 export const products = [
-	HAT,
-	PANTS,
+	{ id: 1, productTypeId: 1, warehouseId: 2 },
+	{ id: 2, productTypeId: 2, warehouseId: 1 }
 ];
 
 export const warehouses = [
@@ -11,17 +13,11 @@ export const warehouses = [
 		id: 1,
 		name: "Sofia",
 		size: 100,
-		products: [
-			PANTS
-		]
 	},
 	{
 		id: 2,
 		name: "Plovdiv",
 		size: 20,
-		products: [
-			HAT
-		]
 	},
 ];
 

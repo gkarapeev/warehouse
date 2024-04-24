@@ -4,28 +4,34 @@ export const typeDefs = `#graphql
 		name: String!
 		size: Int!
 		products: [Product!]
+		movements: [Movement!]
 	}
 
-	type Product {
+	type ProductType {
 		id: Int!
 		name: String!
 		sizePerUnit: Int!
 	}
 
+	type Product {
+		id: Int!
+		type: ProductType!
+	}
+
 	type Movement {
 		id: Int!
 		name: String!
-		fromWarehouseId: Int
-		toWarehouseId: Int
+		fromWarehouse: Warehouse!
+		toWarehouse: Warehouse!
 		date: String!
-		productId: Int!
+		product: Product!
 		productCount: Int!
 	}
 
 	type Query {
+		productTypes: [ProductType]
 		products: [Product]
 		warehouses: [Warehouse]
-		warehouseMovements(warehouseId: Int!): [Movement]
 	}
 
 	type Mutation {
