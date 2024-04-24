@@ -1,10 +1,11 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { typeDefs } from "./type-defs";
+import { typeDefs } from "./type-defs.js";
+import { resolvers } from "./resolvers.js";
 
 const server = new ApolloServer({
-	typeDefs
-	// resolvers
+	typeDefs,
+	resolvers
 });
 
 const PORT = 4000;

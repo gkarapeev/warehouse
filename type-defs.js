@@ -22,7 +22,7 @@ export const typeDefs = `#graphql
 	}
 
 	type Query {
-		getAllProducts: [Product]
+		products: [Product]
 		getMovementsByWarehouse(warehouseId: Int!): [Movement]
 	}
 
