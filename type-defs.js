@@ -32,6 +32,7 @@ export const typeDefs = `#graphql
 		productTypes: [ProductType]
 		products: [Product]
 		warehouses: [Warehouse]
+		warehouse(warehouseId: Int!): Warehouse
 	}
 
 	type Mutation {

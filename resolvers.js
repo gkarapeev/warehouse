@@ -10,6 +10,9 @@ export const resolvers = {
 		},
 		warehouses() {
 			return warehouses;
+		},
+		warehouse(_, args) {
+			return warehouses.find(w => w.id === args.warehouseId);
 		}
 	},
 	Warehouse: {
