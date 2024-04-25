@@ -1,7 +1,8 @@
 import { useState, useRef } from "react";
 import Button from "react-bootstrap/Button";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 import { useMutation, gql } from "@apollo/client";
-import "./ProductDialog.css";
 
 const CREATE_PRODUCT_TYPE = 
 	gql`
@@ -15,21 +16,10 @@ const CREATE_PRODUCT_TYPE =
 	`;
 
 export const ProductDialog = ({ refetchProducts }) => {
-	const [_, setIsDialogOpen] = useState(false);
-	const dialogRef = useRef(null);
+	const [show, setShow] = useState(false);
 
 	const [name, setName] = useState('');
 	const [sizePerUnit, setSizePerUnit] = useState('');
-
-	const openDialog = () => {
-		setIsDialogOpen(true);
-		dialogRef.current.showModal();
-	};
-
-	const closeDialog = () => {
-		setIsDialogOpen(false);
-		dialogRef.current.close();
-	};
 
 	const [createProductType] = useMutation(CREATE_PRODUCT_TYPE, {
 		onCompleted: () => {
@@ -45,37 +35,50 @@ export const ProductDialog = ({ refetchProducts }) => {
 			}
 		});
 
-		closeDialog();
+		setShow(false);
 	};
 
 	return (
 		<>
-			<Button onClick={openDialog}>+ Add Product</Button>
+			<Button variant="primary" onClick={() => setShow(true)}>+ Add Product</Button>
 
-			<dialog ref={dialogRef}>
-				<h2>Create Product</h2>
+			<Modal show={show} onHide={() => setShow(false)} centered>
+				<Modal.Header closeButton>
+					<Modal.Title>Create Product</Modal.Title>
+				</Modal.Header>
 
-				<form>
-					<label htmlFor="productName">Name</label>
-					<input
-						type="text"
-						id="productName"
-						value={name}
-						onChange={(e) => setName(e.target.value)}
-					/>
 
-					<label htmlFor="productSize">Size per unit</label>
-					<input
-						type="number"
-						id="productSize"
-						value={sizePerUnit}
-						onChange={(e) => setSizePerUnit(parseInt(e.target.value))}
-					/>
-				</form>
+				<Modal.Body>
+					<Form>
+						<Form.Label htmlFor="productName">Name</Form.Label>
+						<Form.Control
+							type="text"
+							id="productName"
+							value={name}
+							onChange={(e) => setName(e.target.value)}
+							autoFocus
+						/>
 
-				<Button type="button" onClick={handleSubmit}>Create Product</Button>
-				<Button onClick={closeDialog}>Close Dialog</Button>
-			</dialog>
+						<Form.Label htmlFor="productSize">Size per unit</Form.Label>
+						<Form.Control
+							type="number"
+							id="productSize"
+							value={sizePerUnit}
+							onChange={(e) => setSizePerUnit(parseInt(e.target.value))}
+						/>
+					</Form>
+				</Modal.Body>
+
+				<Modal.Footer>
+					<Button variant="secondary" onClick={() => setShow(false)}>
+						Close
+					</Button>
+
+					<Button type="button" variant="primary" onClick={handleSubmit}>
+						Create Product
+					</Button>
+				</Modal.Footer>
+			</Modal>
 		</>
 	);
 };
