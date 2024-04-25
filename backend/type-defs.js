@@ -1,10 +1,19 @@
 export const typeDefs = `#graphql
+	type WarehouseStats {
+		productTypeCount: Int
+		productCount: Int
+		totalSize: Int
+		sizeUsed: Int
+		sizeRemaining: Int
+	}
+
 	type Warehouse {
 		id: Int!
 		name: String!
 		size: Int!
 		products: [Product!]
 		movements: [Movement!]
+		stats: WarehouseStats
 	}
 
 	type ProductType {
