@@ -14,11 +14,7 @@ const GET_DATA =
 	`;
 
 export const MasterProductList = () => {
-	const { loading, error, data, refetch } = useQuery(GET_DATA);
-
-	useEffect(() => {
-		console.log(loading, error, data);
-	}, [loading, error, data]);
+	const { _loading, _error, data, refetch } = useQuery(GET_DATA);
 
 	return (
 		<>
