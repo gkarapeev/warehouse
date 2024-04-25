@@ -14,7 +14,7 @@ export const App = () => {
 	return (
 		<BrowserRouter>
 			<Navbar expand="sm" className="bg-body-tertiary px-4">
-				<Navbar.Brand as={NavLink} to="/" >📦 Warehouse</Navbar.Brand>
+				<Navbar.Brand as={NavLink} to="/" style={{fontWeight: 100}}>📦 Warehouse Master</Navbar.Brand>
 
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 
