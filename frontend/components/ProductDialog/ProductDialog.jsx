@@ -16,7 +16,7 @@ const CREATE_PRODUCT_TYPE =
 	`;
 
 export const ProductDialog = ({ refetchProducts }) => {
-	const [show, setShow] = useState(false);
+	const [showDialog, setShowDialog] = useState(false);
 
 	const [name, setName] = useState('');
 	const [sizePerUnit, setSizePerUnit] = useState('');
@@ -35,14 +35,14 @@ export const ProductDialog = ({ refetchProducts }) => {
 			}
 		});
 
-		setShow(false);
+		setShowDialog(false);
 	};
 
 	return (
 		<>
-			<Button size="sm" variant="success" onClick={() => setShow(true)}>+ Add Product</Button>
+			<Button size="sm" variant="success" onClick={() => setShowDialog(true)}>+ Add Product</Button>
 
-			<Modal show={show} onHide={() => setShow(false)} centered>
+			<Modal show={showDialog} onHide={() => setShowDialog(false)} centered>
 				<Modal.Header closeButton>
 					<Modal.Title>Create Product</Modal.Title>
 				</Modal.Header>
@@ -70,7 +70,7 @@ export const ProductDialog = ({ refetchProducts }) => {
 				</Modal.Body>
 
 				<Modal.Footer>
-					<Button size="sm" variant="secondary" onClick={() => setShow(false)}>
+					<Button size="sm" variant="secondary" onClick={() => setShowDialog(false)}>
 						Close
 					</Button>
 
