@@ -1,0 +1,11 @@
+#warehouse-nav {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+#warehouse-stats {
+	background-color: #ededed;
+	width: 200px;
+	padding: 10px;
+}
