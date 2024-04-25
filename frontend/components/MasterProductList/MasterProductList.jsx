@@ -14,11 +14,11 @@ const GET_DATA =
 	`;
 
 export const MasterProductList = () => {
-	const { loading, error, data } = useQuery(GET_DATA);
+	const { loading, error, data, refetch } = useQuery(GET_DATA);
 
 	useEffect(() => {
 		console.log(loading, error, data);
-	});
+	}, [loading, error, data]);
 
 	return (
 		<>
@@ -33,7 +33,7 @@ export const MasterProductList = () => {
 				null
 			}
 
-			<ProductDialog />
+			<ProductDialog refetchProducts={refetch} />
 		</>
 	);
 };

@@ -13,7 +13,7 @@ const CREATE_PRODUCT_TYPE =
 		}
 	`;
 
-export const ProductDialog = () => {
+export const ProductDialog = ({ refetchProducts }) => {
 	const [_, setIsDialogOpen] = useState(false);
 	const dialogRef = useRef(null);
 
@@ -30,7 +30,11 @@ export const ProductDialog = () => {
 		dialogRef.current.close();
 	};
 
-	const [createProductType] = useMutation(CREATE_PRODUCT_TYPE);
+	const [createProductType] = useMutation(CREATE_PRODUCT_TYPE, {
+		onCompleted: () => {
+			refetchProducts();
+		}
+	});
 
 	const handleSubmit = (e) => {
 		createProductType({
