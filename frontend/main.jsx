@@ -5,6 +5,8 @@ import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import MasterProductList from "./components/MasterProductList/MasterProductList";
 import Warehouse from "./components/Warehouse/Warehouse";
 
+import "bootstrap/dist/css/bootstrap.min.css"
+
 const client = new ApolloClient({
 	uri: 'http://localhost:4000/',
 	cache: new InMemoryCache()

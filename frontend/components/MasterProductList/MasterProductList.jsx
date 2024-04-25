@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
 import { ProductDialog } from "../ProductDialog/ProductDialog"
 

@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import Button from "react-bootstrap/Button";
 import { useMutation, gql } from "@apollo/client";
 import "./ProductDialog.css";
 
@@ -49,7 +50,7 @@ export const ProductDialog = ({ refetchProducts }) => {
 
 	return (
 		<>
-			<button onClick={openDialog}>+ Add Product</button>
+			<Button onClick={openDialog}>+ Add Product</Button>
 
 			<dialog ref={dialogRef}>
 				<h2>Create Product</h2>
@@ -72,8 +73,8 @@ export const ProductDialog = ({ refetchProducts }) => {
 					/>
 				</form>
 
-				<button type="button" onClick={handleSubmit}>Create Product</button>
-				<button onClick={closeDialog}>Close Dialog</button>
+				<Button type="button" onClick={handleSubmit}>Create Product</Button>
+				<Button onClick={closeDialog}>Close Dialog</Button>
 			</dialog>
 		</>
 	);
