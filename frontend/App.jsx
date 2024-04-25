@@ -3,17 +3,11 @@ import { useEffect } from "react";
 
 const GET_DATA = 
 	gql`
-		query WarehousesWithProductsAndTypes {
-			warehouses {
+		query AllProductTypes {
+			productTypes {
 				id
 				name
-				products {
-					id
-					type {
-						name
-						sizePerUnit
-					}
-				}
+				sizePerUnit
 			}
 		}
 	`;
@@ -27,7 +21,16 @@ export const App = () => {
 
 	return (
 		<>
-			App works!
+			Master Product List
+			{
+				data
+				?
+				data.productTypes.map((productType, i) => {
+					return <div key={i}>ID: {productType.id}, Name: {productType.name}, Size: {productType.sizePerUnit}</div>
+				})
+				:
+				null
+			}
 		</>
 	)
 };
