@@ -22,6 +22,18 @@ const GET_WAREHOUSE_MOVEMENTS = gql`
 			movements {
 				name
 				date
+				id
+				fromWarehouse {
+					name
+				}
+				toWarehouse {
+					name
+				}
+				products {
+					type {
+						name
+					}
+				}
 			}
 		}
 	}
@@ -83,13 +95,12 @@ export const Warehouse = () => {
 			</div>
 
 			<div style={{display: 'flex', justifyContent: 'space-between'}}>
-				<span>Movement Name</span>
 				<span>Movement ID</span>
+				<span>Movement Name</span>
 				<span>From</span>
 				<span>To</span>
 				<span>Date</span>
 				<span>Product Name</span>
-				<span>Product ID</span>
 				<span>Product Count</span>
 			</div>
 
@@ -99,8 +110,13 @@ export const Warehouse = () => {
 						<div>
 							{movementsData.warehouse.movements.map((movement, index) => (
 								<div key={index}>
-									<span>{movement.name}</span>
-									<span>{movement.date}</span>
+									<span>#{movement.id}</span> |
+									<span>{movement.name}</span> |
+									<span>{movement.fromWarehouse.name} ➡️ {movement.toWarehouse.name}</span> |
+									<span>🗓 {movement.date}</span> |
+									<span> {movement.date}</span> |
+									<span> {movement.products[0].type.name}</span> |
+									<span> {movement.products.length}</span> |
 								</div>
 							))}
 						</div>
