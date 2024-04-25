@@ -17,32 +17,41 @@ const GET_WAREHOUSES = gql`
 `;
 
 const GET_WAREHOUSE_MOVEMENTS = gql`
-	query WarehouseMovements($warehouseId: Int!) {
-		warehouse(warehouseId: $warehouseId) {
-			movements {
+query WarehouseMovements($warehouseId: Int!) {
+	warehouse(warehouseId: $warehouseId) {
+		name
+		stats {
+			productTypeCount
+			productCount
+			totalSize
+			sizeUsed
+			sizeRemaining
+		}
+		movements {
+			name
+			date
+			id
+			fromWarehouse {
 				name
-				date
-				id
-				fromWarehouse {
-					name
-				}
-				toWarehouse {
-					name
-				}
-				products {
-					type {
-						name
-					}
+			}
+			toWarehouse {
+				name
+			}
+			products {
+				type {
+				name
 				}
 			}
 		}
 	}
+}
+
 `;
 
 export const Warehouse = () => {
 	const { loading, error, data, refetch } = useQuery(GET_WAREHOUSES);
 	const [selectedWarehouse, setselectedWarehouse] = useState(null);
-	const [fetchMovements, { data: movementsData, loading: movementsLoading, error: movementsError }] = useLazyQuery(GET_WAREHOUSE_MOVEMENTS);
+	const [fetchMovements, { data: warehouseData, loading: movementsLoading, error: movementsError }] = useLazyQuery(GET_WAREHOUSE_MOVEMENTS);
 
 	const handleWarehouseChange = (wh) => {
 		setselectedWarehouse(wh);
@@ -83,11 +92,12 @@ export const Warehouse = () => {
 					<span style={{fontWeight: 500}}>Warehouse Stats</span><br />
 
 					{
-						selectedWarehouse && (<span style={{fontSize: 11}}>
-							Product types: 6<br />
-							Total product count: 87<br />
-							Size used: 124<br />
-							Size remaining: 136
+						selectedWarehouse && warehouseData && (<span style={{fontSize: 11}}>
+							Product types: {warehouseData.warehouse.stats.productTypeCount}<br />
+							Total product count: {warehouseData.warehouse.stats.productCount}<br />
+							Total size: {warehouseData.warehouse.stats.totalSize}<br />
+							Size used: {warehouseData.warehouse.stats.sizeUsed}<br />
+							Size remaining: {warehouseData.warehouse.stats.sizeRemaining}
 						</span>)
 						|| '--'
 					}
@@ -106,9 +116,9 @@ export const Warehouse = () => {
 
 			<div>
 				{
-					selectedWarehouse && movementsData && (
+					selectedWarehouse && warehouseData && (
 						<div>
-							{movementsData.warehouse.movements.map((movement, index) => (
+							{warehouseData.warehouse.movements.map((movement, index) => (
 								<div key={index}>
 									<span>#{movement.id}</span> |
 									<span>{movement.name}</span> |
