@@ -1,5 +1,6 @@
-import { useQuery, gql } from "@apollo/client";
 import { useEffect } from "react";
+import { useQuery, gql } from "@apollo/client";
+import { ProductDialog } from "../ProductDialog/ProductDialog"
 
 const GET_DATA = 
 	gql`
@@ -12,7 +13,7 @@ const GET_DATA =
 		}
 	`;
 
-export const App = () => {
+export const MasterProductList = () => {
 	const { loading, error, data } = useQuery(GET_DATA);
 
 	useEffect(() => {
@@ -31,6 +32,10 @@ export const App = () => {
 				:
 				null
 			}
+
+			<ProductDialog />
 		</>
-	)
+	);
 };
+
+export default MasterProductList;
