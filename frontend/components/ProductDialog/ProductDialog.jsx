@@ -40,7 +40,7 @@ export const ProductDialog = ({ refetchProducts }) => {
 
 	return (
 		<>
-			<Button variant="primary" onClick={() => setShow(true)}>+ Add Product</Button>
+			<Button size="sm" variant="primary" onClick={() => setShow(true)}>+ Add Product</Button>
 
 			<Modal show={show} onHide={() => setShow(false)} centered>
 				<Modal.Header closeButton>
@@ -70,11 +70,11 @@ export const ProductDialog = ({ refetchProducts }) => {
 				</Modal.Body>
 
 				<Modal.Footer>
-					<Button variant="secondary" onClick={() => setShow(false)}>
+					<Button size="sm" variant="secondary" onClick={() => setShow(false)}>
 						Close
 					</Button>
 
-					<Button type="button" variant="primary" onClick={handleSubmit}>
+					<Button size="sm" type="button" variant="primary" onClick={handleSubmit}>
 						Create Product
 					</Button>
 				</Modal.Footer>
