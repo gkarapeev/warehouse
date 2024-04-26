@@ -63,6 +63,8 @@ export const Warehouse = () => {
 			},
 			fetchPolicy: 'network-only'
 		})
+
+		console.log('clear')
 	};
 
 	return (
@@ -88,69 +90,73 @@ export const Warehouse = () => {
 							}
 						</Dropdown.Menu>
 					</Dropdown>
-					<span onClick={() => setselectedWarehouse(null)} style={{cursor: 'pointer'}}>[ X ]</span>
 				</div>
 
-				<ImportExportDialog
-					mode="import"
-					isDisabled={!selectedWarehouse}
-					fetchMovements={updateMovements}
-					currentWarehouse={selectedWarehouse}
-				/>
+				<div style={{display: 'flex', gap: '10px'}}>
+					<ImportExportDialog
+						mode="import"
+						isDisabled={!selectedWarehouse}
+						fetchMovements={updateMovements}
+						currentWarehouse={selectedWarehouse}
+					/>
 
-				<ImportExportDialog
-					mode="export"
-					isDisabled={!selectedWarehouse}
-					fetchMovements={updateMovements}
-					currentWarehouse={selectedWarehouse}
-				/>
-
-				<div id="warehouse-stats">
-					<span style={{fontWeight: 500}}>Warehouse Stats</span><br />
-
-					{
-						selectedWarehouse && warehouseData && (<span style={{fontSize: 11}}>
-							Product types: {warehouseData.warehouse.stats.productTypeCount}<br />
-							Total product count: {warehouseData.warehouse.stats.productCount}<br />
-							Total size: {warehouseData.warehouse.stats.totalSize}<br />
-							Size used: {warehouseData.warehouse.stats.sizeUsed}<br />
-							Size remaining: {warehouseData.warehouse.stats.sizeRemaining}
-						</span>)
-						|| '--'
-					}
+					<ImportExportDialog
+						mode="export"
+						isDisabled={!selectedWarehouse}
+						fetchMovements={updateMovements}
+						currentWarehouse={selectedWarehouse}
+					/>
 				</div>
 			</div>
 
-			<div style={{display: 'flex', justifyContent: 'space-between'}}>
-				<span>Movement ID</span>
-				<span>Movement Name</span>
-				<span>From</span>
-				<span>To</span>
-				<span>Date</span>
-				<span>Product Name</span>
-				<span>Product Count</span>
-			</div>
+			<div id="warehouse-stats">
+				<span style={{fontWeight: 500}}>Warehouse Stats</span><br />
 
-			<div>
 				{
 					selectedWarehouse && warehouseData && (
-						<div>
-							{warehouseData.warehouse.movements.map((movement, index) => (
-								<div key={index}>
-									<span>#{movement.id}</span> |
-									<span>{movement.name}</span> |
-									<span>{movement.fromWarehouse.name} ➡️ {movement.toWarehouse.name}</span> |
-									<span>🗓 {movement.date}</span> |
-									<span> {movement.products[0].type.name}</span> |
-									<span> {movement.products.length}</span> |
-								</div>
-							))}
+						<div id="stat-list">
+							<span>Product types: {warehouseData.warehouse.stats.productTypeCount}</span>
+							<span>Total product count: {warehouseData.warehouse.stats.productCount}</span>
+							<span>Total size: {warehouseData.warehouse.stats.totalSize}</span>
+							<span>Size used: {warehouseData.warehouse.stats.sizeUsed}</span>
+							<span>Size remaining: {warehouseData.warehouse.stats.sizeRemaining}</span>
 						</div>
 					)
-					|| 'Please select a warehouse to see its movements and stats'
+					|| '--'
 				}
-
 			</div>
+
+			<div className="app-row header">
+				<span className="app-cell id">ID</span>
+				<span className="app-cell name">Movement Name</span>
+				<span className="app-cell from-to">From - To</span>
+				<span className="app-cell date">Date</span>
+				<span className="app-cell productName">Product</span>
+				<span className="app-cell count">Product Count</span>
+			</div>
+
+			{
+				selectedWarehouse && warehouseData && (
+					<div style={{ display: 'flex', flexGrow: 1, flexDirection: 'column', gap: '2px'}}>
+						{warehouseData.warehouse.movements.map((movement, index) => (
+							<div key={index} className="app-row body">
+								<span className="app-cell id">#{movement.id}</span>
+								<span className="app-cell name">{movement.name}</span>
+								<span className="app-cell from-to">{movement.fromWarehouse.name} ➡️ {movement.toWarehouse.name}</span>
+								<span className="app-cell date">🗓 {movement.date}</span>
+								<span className="app-cell productName"> {movement.products[0].type.name}</span>
+								<span className="app-cell count"> {movement.products.length}</span>
+							</div>
+						))}
+					</div>
+				)
+				||
+				(
+					<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexGrow: 1}}>
+						'Please select a warehouse to see its movements and stats'
+					</div>
+				)
+			}
 		</>
 	);
 };
