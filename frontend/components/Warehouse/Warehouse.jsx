@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { useQuery, useLazyQuery, gql } from "@apollo/client";
-import { ProductDialog } from "../ProductDialog/ProductDialog"
 import Dropdown from "react-bootstrap/Dropdown";
-import Button from "react-bootstrap/Button";
-import Stack from "react-bootstrap/Stack";
 
 import "./Warehouse.css";
 import ImportExportDialog from "../ImportExportDialog/ImportExportDialog";
