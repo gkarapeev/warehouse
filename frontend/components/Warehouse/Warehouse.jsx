@@ -63,8 +63,6 @@ export const Warehouse = () => {
 			},
 			fetchPolicy: 'network-only'
 		})
-
-		console.log('clear')
 	};
 
 	return (
