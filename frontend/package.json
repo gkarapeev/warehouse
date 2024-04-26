@@ -4,6 +4,9 @@
   "main": "index.js",
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "start": "vite"
+  },
   "dependencies": {
     "@apollo/client": "^3.10.1",
     "bootstrap": "^5.3.3",

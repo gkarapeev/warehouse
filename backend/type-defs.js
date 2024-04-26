@@ -7,6 +7,12 @@ export const typeDefs = `#graphql
 		sizeRemaining: Int
 	}
 
+	type ProductTypeCount {
+		id: Int!
+		name: String!
+		count: Int!
+	}
+
 	type Warehouse {
 		id: Int!
 		name: String!
@@ -14,12 +20,14 @@ export const typeDefs = `#graphql
 		products: [Product!]
 		movements: [Movement!]
 		stats: WarehouseStats
+		productTypes: [ProductTypeCount!]
 	}
 
 	type ProductType {
 		id: Int!
 		name: String!
 		sizePerUnit: Int!
+		warehouses: [Warehouse!]
 	}
 
 	type Product {
@@ -30,7 +38,7 @@ export const typeDefs = `#graphql
 	type Movement {
 		id: Int!
 		name: String!
-		fromWarehouseId: Int # nullable because that's an easy way to just fill new products for testing
+		fromWarehouseId: Int!
 		toWarehouseId: Int!
 		productTypeId: Int!
 		productIds: [Int!]!
@@ -49,6 +57,6 @@ export const typeDefs = `#graphql
 
 	type Mutation {
 		createProductType(name: String!, sizePerUnit: Int!): ProductType
-		moveProducts(name: String!, fromWarehouseId: Int!, toWarehouseId: Int!, productTypeId: Int!, productIds: [Int!]!): Movement
+		moveProducts(name: String!, fromWarehouseId: Int!, toWarehouseId: Int!, productTypeId: Int!, productCount: Int!): Movement
 	}
 `;

@@ -20,9 +20,17 @@ export const resolvers = {
 			return db.movements.filter(m => m.fromWarehouseId === parent.id || m.toWarehouseId === parent.id);
 		},
 		products(parent) {
-			return db.products.filter(p => p.warehouseId === parent.id);
+			return db.products.filter(pr => pr.warehouseId === parent.id);
 		},
-		stats (parent) {// this will be an aggregation query in reality
+		productTypes(parent) {
+			const allTypeIds = db.products.filter(pr => pr.warehouseId === parent.id).map(pr => pr.productTypeId);
+			const uniqueTypeIds = [ ...new Set(allTypeIds)];
+			return uniqueTypeIds.map(typeId => ({
+				...db.productTypes.find(type => type.id === typeId),
+				count: db.products.filter(pr => pr.warehouseId === parent.id && pr.productTypeId === typeId).length
+			}));
+		},
+		stats (parent) { // this will be an aggregation query in reality
 			const products = db.products.filter(p => p.warehouseId === parent.id);
 			const sizeUsed = products.reduce((total, product) => total + (db.productTypes.find(type => type.id === product.productTypeId).sizePerUnit || 0), 0);
 
@@ -38,6 +46,13 @@ export const resolvers = {
 	Product: {
 		type(parent) {
 			return db.productTypes.find(t => t.id === parent.productTypeId)
+		}
+	},
+	ProductType: {
+		warehouses(parent) {
+			const products = db.products.filter(p => p.productTypeId === parent.id);
+			const warehouseIds = [ ...new Set(products.map(pr => pr.warehouseId)) ];
+			return warehouseIds.map(whId => db.warehouses.find(wh => wh.id === whId));
 		}
 	},
 	Movement: {
@@ -69,9 +84,13 @@ export const resolvers = {
 			return newType;
 		},
 		moveProducts(_, args) {
-			args.productIds.forEach(productId => db.products.find(p => p.id === productId).warehouseId = args.toWarehouseId);
+			const allRelevantProducts = db.products.filter(pr => pr.warehouseId === args.fromWarehouseId && args.productTypeId === pr.productTypeId);
+			const selectedProductIds = allRelevantProducts.slice(0, args.productCount).map(pr => pr.id);
 
-			const biggestId = Math.max(...db.productTypes.map(t => t.id));
+			// Change the `warehouseId` of each corresponding item in the db
+			selectedProductIds.forEach(productId => db.products.find(p => p.id === productId).warehouseId = args.toWarehouseId);
+
+			const biggestId = Math.max(...db.movements.map(t => t.id));
 			const newId = biggestId + 1;
 
 			const newMovement = {
@@ -81,7 +100,7 @@ export const resolvers = {
 				fromWarehouseId: args.fromWarehouseId,
 				toWarehouseId: args.toWarehouseId,
 				productTypeId: args.productTypeId,
-				productIds: args.productIds
+				productIds: selectedProductIds
 			};
 
 			db.movements = [ ...db.movements, newMovement ];

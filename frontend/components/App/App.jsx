@@ -13,15 +13,15 @@ import "./App.css";
 export const App = () => {
 	return (
 		<BrowserRouter>
-			<Navbar expand="sm" className="bg-body-tertiary px-4">
+			<Navbar expand="sm" className="bg-body-tertiary px-4" id="app-navigation">
 				<Navbar.Brand as={NavLink} to="/" style={{fontWeight: 100}}>📦 Warehouse Master</Navbar.Brand>
 
 				<Navbar.Toggle aria-controls="basic-navbar-nav" />
 
 				<Navbar.Collapse id="basic-navbar-nav">
 					<Stack direction="horizontal" gap={3} className="ms-auto">
-						<Nav.Link as={NavLink} className="app-nav-link rounded-1 px-3 py-1" to="/">Master Product List</Nav.Link>
-						<Nav.Link as={NavLink} className="app-nav-link rounded-1 px-3 py-1" to="/warehouse">Warehouse</Nav.Link>
+						<Nav.Link as={NavLink} className="app-nav-link rounded-1 px-3 py-1" to="/">Product List</Nav.Link>
+						<Nav.Link as={NavLink} className="app-nav-link rounded-1 px-3 py-1" to="/warehouse">Warehouse View</Nav.Link>
 					</Stack>
 				</Navbar.Collapse>
 			</Navbar>

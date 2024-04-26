@@ -6,6 +6,7 @@ import Button from "react-bootstrap/Button";
 import Stack from "react-bootstrap/Stack";
 
 import "./Warehouse.css";
+import ImportExportDialog from "../ImportExportDialog/ImportExportDialog";
 
 const GET_WAREHOUSES = gql`
 	query Warehouses {
@@ -17,35 +18,35 @@ const GET_WAREHOUSES = gql`
 `;
 
 const GET_WAREHOUSE_MOVEMENTS = gql`
-query WarehouseMovements($warehouseId: Int!) {
-	warehouse(warehouseId: $warehouseId) {
-		name
-		stats {
-			productTypeCount
-			productCount
-			totalSize
-			sizeUsed
-			sizeRemaining
-		}
-		movements {
+	query WarehouseMovements($warehouseId: Int!) {
+		warehouse(warehouseId: $warehouseId) {
 			name
-			date
 			id
-			fromWarehouse {
-				name
+			stats {
+				productTypeCount
+				productCount
+				totalSize
+				sizeUsed
+				sizeRemaining
 			}
-			toWarehouse {
+			movements {
 				name
-			}
-			products {
-				type {
-				name
+				date
+				id
+				fromWarehouse {
+					name
+				}
+				toWarehouse {
+					name
+				}
+				products {
+					type {
+					name
+					}
 				}
 			}
 		}
 	}
-}
-
 `;
 
 export const Warehouse = () => {
@@ -56,6 +57,15 @@ export const Warehouse = () => {
 	const handleWarehouseChange = (wh) => {
 		setselectedWarehouse(wh);
 		fetchMovements({ variables: { warehouseId: wh.id } });
+	};
+
+	const updateMovements = () => {
+		fetchMovements({
+			variables: {
+				warehouseId: selectedWarehouse.id
+			},
+			fetchPolicy: 'network-only'
+		})
 	};
 
 	return (
@@ -84,9 +94,19 @@ export const Warehouse = () => {
 					<span onClick={() => setselectedWarehouse(null)} style={{cursor: 'pointer'}}>[ X ]</span>
 				</div>
 
-				<Button disabled={!selectedWarehouse} size="sm" variant="success">+ Import</Button>
+				<ImportExportDialog
+					mode="import"
+					isDisabled={!selectedWarehouse}
+					fetchMovements={updateMovements}
+					currentWarehouse={selectedWarehouse}
+				/>
 
-				<Button disabled={!selectedWarehouse} size="sm" variant="success">- Export</Button>
+				<ImportExportDialog
+					mode="export"
+					isDisabled={!selectedWarehouse}
+					fetchMovements={updateMovements}
+					currentWarehouse={selectedWarehouse}
+				/>
 
 				<div id="warehouse-stats">
 					<span style={{fontWeight: 500}}>Warehouse Stats</span><br />
@@ -124,7 +144,6 @@ export const Warehouse = () => {
 									<span>{movement.name}</span> |
 									<span>{movement.fromWarehouse.name} ➡️ {movement.toWarehouse.name}</span> |
 									<span>🗓 {movement.date}</span> |
-									<span> {movement.date}</span> |
 									<span> {movement.products[0].type.name}</span> |
 									<span> {movement.products.length}</span> |
 								</div>
